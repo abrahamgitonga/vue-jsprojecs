@@ -41,6 +41,12 @@ import auth from 'firebase/auth'
             // The signed-in user info.
             var user = result.user;
             console.log(response.user)
+            // dispatch setuser function
+            this.$store.dispatch('setUser',response.user)
+
+            //redirect to home page
+
+            this.$router.push('/')
             });
         }
 
