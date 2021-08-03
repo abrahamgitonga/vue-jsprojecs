@@ -1,5 +1,5 @@
 <template>
-    <h2>chat page</h2>
+    <h2 style="text-align: center">chat page</h2>
 </template>
 <script>
 
