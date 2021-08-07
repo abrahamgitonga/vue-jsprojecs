@@ -19,7 +19,7 @@
             </div>
             <div class="row mt-5">
                 <div class="col text-center">
-                    <button class="btn btn-outline-info btn-lg">Login with Twitter</button>
+                    <button @click ="loginwithtwitter" class="btn btn-outline-info btn-lg">Login with Twitter</button>
 
                 </div>
             </div>
@@ -62,6 +62,28 @@ import auth from 'firebase/auth'
                     //redirect to chat page '/'
                     this.$router.push('/')  
             
+            })
+            .catch(error => {
+                this.errors.push(error.message)
+                //set loading state false
+                this.loading = false
+            })
+        },
+        loginwithtwitter(){
+            //set loading true
+            this.loading = true
+            //clear old errors
+            this.errors = []
+
+            firebase.auth().signInWithPopup(new firebase.auth.TwitterAuthProvider())
+            .then((response) => {
+                //pass user to save in db
+                //this.saveUserToUserRef(response.user)
+
+                this.$store.dispatch('ssetUser', response.user)
+                //redirect to chat page '/'
+                this.$router.push('/')
+
             })
             .catch(error => {
                 this.errors.push(error.message)
