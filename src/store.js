@@ -12,7 +12,7 @@ const state = {
 
 const mutations = {
     SET_USER(state,user){
-        state.currentuser = user;
+        state.currentUser = user;
     }
 };
 

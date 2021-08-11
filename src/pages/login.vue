@@ -28,13 +28,15 @@
 </template>
 <script>
 import auth from 'firebase/auth'
+import database from 'firebase/database'
 
     export default {
         name: 'login',
         data(){
             return{
                 errors:[],
-                loading: false
+                loading: false,
+                usersRef: firebase.database().ref('users')
 
             }
         },
@@ -56,7 +58,7 @@ import auth from 'firebase/auth'
                 firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider())
                 .then((response) => {
                     //pass user to save in db
-                    //this.saveUserToUsersRef(response.user)
+                    this.saveUserToUsersRef(response.user)
                     
                     this.$store.dispatch('setUser', response.user)
                     //redirect to chat page '/'
@@ -69,6 +71,19 @@ import auth from 'firebase/auth'
                 this.loading = false
             })
         },
+        //save user to databse
+        saveUserToUsersRef(user){
+            return this.usersRef.child(user.uid).set({
+                name: user.displayName,
+                avatar: user.photoURL
+            })
+
+
+        },
+
+
+
+
         loginwithtwitter(){
             //set loading true
             this.loading = true
@@ -80,7 +95,7 @@ import auth from 'firebase/auth'
                 //pass user to save in db
                 //this.saveUserToUserRef(response.user)
 
-                this.$store.dispatch('ssetUser', response.user)
+                this.$store.dispatch('setUser', response.user)
                 //redirect to chat page '/'
                 this.$router.push('/')
 
